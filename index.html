@@ -1,0 +1,1193 @@
+<html lang="pt-BR" class="animated-bg">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🧮 7. Calculadora de Fórmulas Escolares e Universitárias</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<style>
+
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Fira Mono', monospace;
+      background: linear-gradient(135deg, #000000 0%, #2a0000 100%);
+      min-height: 100vh;
+      color: #eee;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+      animation: fadeInUp 0.8s ease-out;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: slideInDown 0.8s ease-out;
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #ff4444;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+      user-select: none;
+    }
+
+    header p {
+      color: #ff8888;
+      font-weight: 500;
+      margin-top: 0.25rem;
+      user-select: none;
+    }
+
+    /* Categories filter */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .category-btn {
+      background: #220000;
+      border: 1.5px solid #aa0000;
+      color: #ff4444;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: #ff0000;
+      border-color: #ff2222;
+      color: #fff;
+      box-shadow: 0 0 8px #ff2222;
+    }
+
+    /* Cards container */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 1.5rem;
+      overflow-y: auto;
+      max-height: 60vh;
+      padding-right: 0.5rem;
+    }
+
+    /* Card style */
+    .card {
+      background: rgba(20, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem 2rem;
+      box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .card:active {
+      cursor: grabbing;
+    }
+
+    .card:hover {
+      box-shadow: 0 30px 60px rgba(255, 0, 0, 0.7);
+      transform: translateY(-4px);
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ff4444;
+      margin-bottom: 0.75rem;
+      user-select: text;
+    }
+
+    .card p {
+      flex-grow: 1;
+      color: #ff9999;
+      margin-bottom: 1.25rem;
+      user-select: text;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .btn-link {
+      align-self: flex-start;
+      background: transparent;
+      border: 2px solid #ff4444;
+      color: #ff4444;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-family: 'Fira Mono', monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+
+    .btn-link:hover,
+    .btn-link:focus {
+      background: #ff0000;
+      border-color: #ff0000;
+      color: #fff;
+      box-shadow: 0 0 10px #ff2222;
+      outline: none;
+    }
+
+    .btn-link i {
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #110000;
+      border-top: 1px solid #440000;
+      padding: 1rem 0;
+      text-align: center;
+      color: #ff4444;
+      font-family: 'Fira Mono', monospace;
+      user-select: none;
+    }
+
+    footer .social-links {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    footer .social-links a {
+      color: #ff4444;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    footer .social-links a:hover,
+    footer .social-links a:focus {
+      color: #ff0000;
+      outline: none;
+    }
+
+    /* Scrollbar for cards container */
+    .cards::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+
+    .cards::-webkit-scrollbar-track {
+      background: #220000;
+    }
+
+    .cards::-webkit-scrollbar-thumb {
+      background: #ff4444;
+      border-radius: 4px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px) {
+      header h1 {
+        font-size: 2.25rem;
+      }
+      .card {
+        font-size: 0.9rem;
+        padding: 1.25rem 1rem 1.5rem;
+      }
+      .btn-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+      }
+    }
+
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #2a0000 100%);
+      min-height: 100vh;
+      color: #eee;
+      line-height: 1.6;
+  }
+
+  .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      animation: fadeInUp 0.8s ease-out;
+  }
+
+  @keyframes fadeInUp {
+      from {
+          opacity: 0;
+          transform: translateY(30px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: slideInDown 0.8s ease-out;
+  }
+
+  @keyframes slideInDown {
+      from {
+          opacity: 0;
+          transform: translateY(-50px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  .header h1 {
+      color: #ff4444;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+      font-size: 3rem;
+      font-weight: 800;
+  }
+
+  .header p {
+      color: #ff8888;
+      font-size: 1.25rem;
+      margin-top: 8px;
+      font-weight: 500;
+  }
+
+  .card {
+      background: rgba(20, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(255, 0, 0, 0.4);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      color: #eee;
+      transition: all 0.3s ease;
+  }
+
+  .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 60px rgba(255, 0, 0, 0.7);
+  }
+
+  .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #ff6666;
+      font-size: 1rem;
+  }
+
+  .form-group label i {
+      margin-right: 8px;
+      color: #fff;
+  }
+
+  input[type="text"], textarea, select {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #550000;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #200000;
+      color: #eee;
+      font-family: 'Inter', sans-serif;
+  }
+
+  input[type="text"]:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #ff0000;
+      box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3);
+      transform: translateY(-2px);
+  }
+
+  textarea {
+      height: 120px;
+      resize: vertical;
+  }
+
+  .submit-btn {
+      background: linear-gradient(135deg, #ff0000 0%, #aa0000 100%);
+      color: #eee;
+      padding: 18px 40px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 0, 0, 0.7);
+  }
+
+  .submit-btn:active {
+      transform: translateY(0);
+  }
+
+  .submit-btn:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      color: #666;
+  }
+
+  .loading {
+      display: none;
+      text-align: center;
+      margin: 30px 0;
+      animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+  }
+
+  .loading-spinner {
+      border: 4px solid #330000;
+      border-top: 4px solid #ff0000;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+  }
+
+  @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+
+  .result {
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 12px;
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      font-family: 'Inter', sans-serif;
+  }
+
+  @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+  .result.success {
+      background: linear-gradient(135deg, #ff0404 0%, #770000 100%);
+      color: white;
+      border: none;
+  }
+
+  .result.error {
+      background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+      color: white;
+      border: none;
+  }
+
+  .rich-text-content {
+      background: rgba(30, 0, 0, 0.4);
+      color: #eee;
+      padding: 20px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      line-height: 1.8;
+      margin-top: 20px;
+  }
+
+  .rich-text-content h3 {
+      color: #ff4444;
+      font-size: 1.2rem;
+      margin: 20px 0 10px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255,255,255,0.4);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  }
+
+  .rich-text-content p {
+      margin-bottom: 15px;
+      text-align: justify;
+  }
+
+  .rich-text-content ul {
+      margin: 15px 0;
+      padding-left: 0;
+      list-style: none;
+  }
+
+  .rich-text-content li {
+      margin: 8px 0;
+      padding: 8px 0 8px 25px;
+      position: relative;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      margin-bottom: 5px;
+  }
+
+  .rich-text-content li:before {
+      content: "▶";
+      position: absolute;
+      left: 8px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.8rem;
+  }
+
+  .rich-text-content strong {
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .rich-text-content em {
+      font-style: italic;
+      opacity: 0.9;
+  }
+
+  .rich-text-content mark {
+      background: rgba(255,255,255,0.3);
+      color: white;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+      .container {
+          padding: 15px;
+      }
+      
+      .header h1 {
+          font-size: 2.5rem;
+      }
+      
+      .card {
+          padding: 25px;
+      }
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header class="header" aria-label="Cabeçalho da calculadora">
+      <h1>🧮 Calculadora de Fórmulas Escolares e Universitárias</h1>
+      <p>Resolva Bhaskara, regra de três, porcentagem, logaritmos, lei dos senos, cossenos e mais com passos detalhados</p>
+    </header>
+
+    <section class="card" aria-label="Formulário de cálculo">
+      <form id="calcForm" novalidate>
+        <div class="form-group mb-6">
+          <label for="calcType" class="flex items-center"><i class="fas fa-calculator"></i> Tipo de cálculo</label>
+          <select id="calcType" name="calcType" required aria-required="true" class="mt-1">
+            <option value="" disabled selected>Selecione o tipo de cálculo</option>
+            <option value="bhaskara">Bhaskara (Equação do 2º grau)</option>
+            <option value="regraDeTres">Regra de Três</option>
+            <option value="porcentagem">Porcentagem</option>
+            <option value="logaritmo">Logaritmo (aproximação)</option>
+            <option value="leiDosSenos">Lei dos Senos</option>
+            <option value="leiDosCossenos">Lei dos Cossenos</option>
+            <option value="areaTriangulo">Área do Triângulo (fórmulas diversas)</option>
+            <option value="pitagoras">Teorema de Pitágoras</option>
+            <option value="progressaoAritmetica">Progressão Aritmética (PA)</option>
+            <option value="progressaoGeometrica">Progressão Geométrica (PG)</option>
+          </select>
+        </div>
+
+        <div id="inputsContainer" class="space-y-6"></div>
+
+        <button type="submit" class="submit-btn mt-6" id="submitBtn" disabled>Calcular</button>
+      </form>
+
+      <div class="loading" id="loading" aria-live="polite" aria-busy="true" role="status" aria-label="Carregando resultado">
+        <div class="loading-spinner"></div>
+        <div>Calculando...</div>
+      </div>
+
+      <section id="result" class="result" role="region" aria-live="polite" aria-atomic="true"></section>
+    </section>
+  </div>
+    <footer role="contentinfo" aria-label="Rodapé com links sociais">
+    <div>© 2025 Painel de Utilidades Mxlsc</div>
+    <div class="social-links" role="navigation" aria-label="Links para redes sociais">
+      <a href="https://github.com/Mxlsc-XXX" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      <a href="https://discordapp.com/users/586608984560238595" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+        <i class="fab fa-discord" aria-hidden="true"></i>
+      </a>
+      <a href="https://wa.me/+5513974140538" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+      </a>
+      <a href="https://seulink.digital/NLM7FQ" target="_blank" rel="noopener noreferrer" aria-label="Donate.dev">
+          <i class="fab fa-sketch" aria-hidden="true"></i>
+      </a>
+    </div>
+  </footer>
+
+<script>
+  const calcTypeSelect = document.getElementById('calcType');
+  const inputsContainer = document.getElementById('inputsContainer');
+  const submitBtn = document.getElementById('submitBtn');
+  const loading = document.getElementById('loading');
+  const result = document.getElementById('result');
+  const form = document.getElementById('calcForm');
+
+  function resetForm() {
+    inputsContainer.innerHTML = '';
+    submitBtn.disabled = true;
+    result.style.display = 'none';
+    result.innerHTML = '';
+  }
+
+  function createInput(id, labelText, iconClass, type = 'text', placeholder = '', ariaLabel = '') {
+    const div = document.createElement('div');
+    div.className = 'form-group';
+
+    const label = document.createElement('label');
+    label.setAttribute('for', id);
+    label.className = 'flex items-center';
+    label.innerHTML = `<i class="${iconClass}"></i> ${labelText}`;
+    if(ariaLabel) label.setAttribute('aria-label', ariaLabel);
+
+    const input = document.createElement('input');
+    input.type = type;
+    input.id = id;
+    input.name = id;
+    input.placeholder = placeholder;
+    input.required = true;
+    input.setAttribute('aria-required', 'true');
+    input.className = 'mt-1';
+
+    div.appendChild(label);
+    div.appendChild(input);
+
+    return div;
+  }
+
+  function createTextarea(id, labelText, iconClass, placeholder = '', ariaLabel = '') {
+    const div = document.createElement('div');
+    div.className = 'form-group';
+
+    const label = document.createElement('label');
+    label.setAttribute('for', id);
+    label.className = 'flex items-center';
+    label.innerHTML = `<i class="${iconClass}"></i> ${labelText}`;
+    if(ariaLabel) label.setAttribute('aria-label', ariaLabel);
+
+    const textarea = document.createElement('textarea');
+    textarea.id = id;
+    textarea.name = id;
+    textarea.placeholder = placeholder;
+    textarea.required = true;
+    textarea.setAttribute('aria-required', 'true');
+    textarea.className = 'mt-1';
+
+    div.appendChild(label);
+    div.appendChild(textarea);
+
+    return div;
+  }
+
+  function validateInputs() {
+    const inputs = inputsContainer.querySelectorAll('input, textarea, select');
+    for (const input of inputs) {
+      if (!input.value.trim()) return false;
+      if (input.type === 'text' || input.tagName.toLowerCase() === 'textarea') {
+        if (isNaN(input.value.trim())) return false;
+      }
+    }
+    return true;
+  }
+
+  function toggleSubmit() {
+    submitBtn.disabled = !validateInputs();
+  }
+
+  function renderInputs(type) {
+    resetForm();
+    if (!type) return;
+
+    if (type === 'bhaskara') {
+      inputsContainer.appendChild(createInput('a', 'Coeficiente a', 'fas fa-sort-numeric-up', 'text', 'Ex: 1'));
+      inputsContainer.appendChild(createInput('b', 'Coeficiente b', 'fas fa-sort-numeric-up', 'text', 'Ex: -3'));
+      inputsContainer.appendChild(createInput('c', 'Coeficiente c', 'fas fa-sort-numeric-up', 'text', 'Ex: 2'));
+    } else if (type === 'regraDeTres') {
+      inputsContainer.appendChild(createInput('valor1', 'Valor 1', 'fas fa-percentage', 'text', 'Ex: 10'));
+      inputsContainer.appendChild(createInput('valor2', 'Valor 2', 'fas fa-percentage', 'text', 'Ex: 20'));
+      inputsContainer.appendChild(createInput('valor3', 'Valor 3', 'fas fa-percentage', 'text', 'Ex: 30'));
+    } else if (type === 'porcentagem') {
+      inputsContainer.appendChild(createInput('total', 'Valor total', 'fas fa-dollar-sign', 'text', 'Ex: 200'));
+      inputsContainer.appendChild(createInput('porcentagem', 'Porcentagem (%)', 'fas fa-percent', 'text', 'Ex: 15'));
+    } else if (type === 'logaritmo') {
+      inputsContainer.appendChild(createInput('base', 'Base do logaritmo', 'fas fa-superscript', 'text', 'Ex: 10'));
+      inputsContainer.appendChild(createInput('valor', 'Valor', 'fas fa-hashtag', 'text', 'Ex: 1000'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> O cálculo do logaritmo será feito por aproximação usando séries.</p>`;
+      inputsContainer.appendChild(infoDiv);
+    } else if (type === 'leiDosSenos') {
+      inputsContainer.appendChild(createInput('a', 'Lado a', 'fas fa-ruler-horizontal', 'text', 'Ex: 5'));
+      inputsContainer.appendChild(createInput('b', 'Lado b', 'fas fa-ruler-horizontal', 'text', 'Ex: 7'));
+      inputsContainer.appendChild(createInput('anguloA', 'Ângulo A (em graus)', 'fas fa-angle-left', 'text', 'Ex: 30'));
+      inputsContainer.appendChild(createInput('anguloB', 'Ângulo B (em graus)', 'fas fa-angle-left', 'text', 'Ex: 45'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> A Lei dos Senos: a/sin(A) = b/sin(B) = c/sin(C)</p>`;
+      inputsContainer.appendChild(infoDiv);
+    } else if (type === 'leiDosCossenos') {
+      inputsContainer.appendChild(createInput('a', 'Lado a', 'fas fa-ruler-horizontal', 'text', 'Ex: 5'));
+      inputsContainer.appendChild(createInput('b', 'Lado b', 'fas fa-ruler-horizontal', 'text', 'Ex: 7'));
+      inputsContainer.appendChild(createInput('anguloC', 'Ângulo C (em graus)', 'fas fa-angle-left', 'text', 'Ex: 60'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> A Lei dos Cossenos: c² = a² + b² - 2ab*cos(C)</p>`;
+      inputsContainer.appendChild(infoDiv);
+    } else if (type === 'areaTriangulo') {
+      inputsContainer.appendChild(createInput('base', 'Base', 'fas fa-ruler-horizontal', 'text', 'Ex: 10'));
+      inputsContainer.appendChild(createInput('altura', 'Altura', 'fas fa-ruler-vertical', 'text', 'Ex: 5'));
+      inputsContainer.appendChild(createInput('ladoA', 'Lado A', 'fas fa-ruler-horizontal', 'text', 'Ex: 7'));
+      inputsContainer.appendChild(createInput('ladoB', 'Lado B', 'fas fa-ruler-horizontal', 'text', 'Ex: 8'));
+      inputsContainer.appendChild(createInput('ladoC', 'Lado C', 'fas fa-ruler-horizontal', 'text', 'Ex: 9'));
+      inputsContainer.appendChild(createInput('anguloC', 'Ângulo C (em graus)', 'fas fa-angle-left', 'text', 'Ex: 60'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> Fórmulas: Área = (base * altura)/2 ou usando lados e ângulo: (1/2)*a*b*sin(C) ou Heron's formula</p>`;
+      inputsContainer.appendChild(infoDiv);
+    } else if (type === 'pitagoras') {
+      inputsContainer.appendChild(createInput('catetoA', 'Cateto A', 'fas fa-ruler-horizontal', 'text', 'Ex: 3'));
+      inputsContainer.appendChild(createInput('catetoB', 'Cateto B', 'fas fa-ruler-horizontal', 'text', 'Ex: 4'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> Teorema de Pitágoras: hipotenusa² = catetoA² + catetoB²</p>`;
+      inputsContainer.appendChild(infoDiv);
+    } else if (type === 'progressaoAritmetica') {
+      inputsContainer.appendChild(createInput('a1', 'Primeiro termo (a₁)', 'fas fa-sort-numeric-up', 'text', 'Ex: 2'));
+      inputsContainer.appendChild(createInput('n', 'Número do termo (n)', 'fas fa-hashtag', 'text', 'Ex: 10'));
+      inputsContainer.appendChild(createInput('r', 'Razão (r)', 'fas fa-random', 'text', 'Ex: 3'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> Fórmula do n-ésimo termo: aₙ = a₁ + (n-1) * r</p>`;
+      inputsContainer.appendChild(infoDiv);
+    } else if (type === 'progressaoGeometrica') {
+      inputsContainer.appendChild(createInput('a1', 'Primeiro termo (a₁)', 'fas fa-sort-numeric-up', 'text', 'Ex: 2'));
+      inputsContainer.appendChild(createInput('n', 'Número do termo (n)', 'fas fa-hashtag', 'text', 'Ex: 5'));
+      inputsContainer.appendChild(createInput('q', 'Razão (q)', 'fas fa-random', 'text', 'Ex: 2'));
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'api-key-help mt-4';
+      infoDiv.innerHTML = `<p><i class="fas fa-info-circle"></i> Fórmula do n-ésimo termo: aₙ = a₁ * q^(n-1)</p>`;
+      inputsContainer.appendChild(infoDiv);
+    }
+
+    const inputs = inputsContainer.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+      input.addEventListener('input', toggleSubmit);
+    });
+
+    toggleSubmit();
+  }
+
+  // Bhaskara calculation with steps
+  function calcularBhaskara(a, b, c) {
+    let steps = [];
+    a = parseFloat(a);
+    b = parseFloat(b);
+    c = parseFloat(c);
+
+    if (a === 0) {
+      return { error: "Coeficiente 'a' não pode ser zero em uma equação do 2º grau." };
+    }
+
+    steps.push(`Equação: ${a}x² + ${b}x + ${c} = 0`);
+
+    const delta = b*b - 4*a*c;
+    steps.push(`Calculando o discriminante (Δ): Δ = b² - 4ac = (${b})² - 4*${a}*${c} = ${delta}`);
+
+    if (delta < 0) {
+      return { error: "Delta é negativo. Não existem raízes reais." };
+    }
+
+    const sqrtDelta = Math.sqrt(delta);
+    steps.push(`Raiz quadrada de Δ: √${delta} = ${sqrtDelta.toFixed(4)}`);
+
+    const x1 = (-b + sqrtDelta) / (2*a);
+    const x2 = (-b - sqrtDelta) / (2*a);
+    steps.push(`Calculando as raízes:`);
+    steps.push(`x₁ = (-b + √Δ) / 2a = (-${b} + ${sqrtDelta.toFixed(4)}) / (2*${a}) = ${x1.toFixed(4)}`);
+    steps.push(`x₂ = (-b - √Δ) / 2a = (-${b} - ${sqrtDelta.toFixed(4)}) / (2*${a}) = ${x2.toFixed(4)}`);
+
+    return { success: true, steps, roots: [x1, x2] };
+  }
+
+  // Regra de três simples direta
+  function calcularRegraDeTres(v1, v2, v3) {
+    v1 = parseFloat(v1);
+    v2 = parseFloat(v2);
+    v3 = parseFloat(v3);
+
+    if (v1 === 0) {
+      return { error: "Valor 1 não pode ser zero." };
+    }
+
+    const x = (v2 * v3) / v1;
+    let steps = [];
+    steps.push(`Regra de três simples direta:`);
+    steps.push(`(Valor 1) está para (Valor 2) assim como (Valor 3) está para (x)`);
+    steps.push(`${v1} → ${v2}`);
+    steps.push(`${v3} → x`);
+    steps.push(`x = (Valor 2 * Valor 3) / Valor 1 = (${v2} * ${v3}) / ${v1} = ${x.toFixed(4)}`);
+
+    return { success: true, steps, result: x };
+  }
+
+  // Porcentagem cálculo
+  function calcularPorcentagem(total, porcentagem) {
+    total = parseFloat(total);
+    porcentagem = parseFloat(porcentagem);
+
+    const valor = (total * porcentagem) / 100;
+    let steps = [];
+    steps.push(`Calculando ${porcentagem}% de ${total}:`);
+    steps.push(`Valor = (Total * Porcentagem) / 100 = (${total} * ${porcentagem}) / 100 = ${valor.toFixed(4)}`);
+
+    return { success: true, steps, result: valor };
+  }
+
+  // Logaritmo por aproximação usando série de Taylor para ln(x) e mudança de base
+  function calcularLogaritmo(base, valor) {
+    base = parseFloat(base);
+    valor = parseFloat(valor);
+
+    if (base <= 0 || base === 1) {
+      return { error: "Base do logaritmo deve ser maior que 0 e diferente de 1." };
+    }
+    if (valor <= 0) {
+      return { error: "Valor do logaritmo deve ser maior que 0." };
+    }
+
+    function lnApprox(x) {
+      if (x <= 0) return NaN;
+      let n = 0;
+      let y = 0;
+      let ln2 = 0.69314718056;
+      let val = x;
+      let steps = [];
+
+      while (val > 2) {
+        val /= 2;
+        n++;
+      }
+      while (val < 0.5) {
+        val *= 2;
+        n--;
+      }
+      y = val - 1;
+      steps.push(`Ajustando x para próximo de 1: x ajustado = ${val.toFixed(6)}, n = ${n}`);
+
+      let term = y;
+      let sum = 0;
+      let i = 1;
+      let sign = 1;
+      while (i <= 20) {
+        sum += sign * term / i;
+        term *= y;
+        sign *= -1;
+        i++;
+      }
+      steps.push(`Série de Taylor para ln(1 + y) com y = ${y.toFixed(6)} calculada até 20 termos: ${sum.toFixed(6)}`);
+
+      const result = sum + n * ln2;
+      steps.push(`ln(x) ≈ ln(1 + y) + n * ln(2) = ${sum.toFixed(6)} + ${n} * ${ln2.toFixed(6)} = ${result.toFixed(6)}`);
+
+      return { value: result, steps };
+    }
+
+    let steps = [];
+    steps.push(`Calculando logaritmo base ${base} de ${valor} usando aproximação:`);
+
+    const lnValor = lnApprox(valor);
+    if (isNaN(lnValor.value)) {
+      return { error: "Erro na aproximação do ln(valor)." };
+    }
+    const lnBase = lnApprox(base);
+    if (isNaN(lnBase.value)) {
+      return { error: "Erro na aproximação do ln(base)." };
+    }
+
+    steps = steps.concat(lnValor.steps);
+    steps = steps.concat(lnBase.steps.map(s => "Base: " + s));
+
+    const logResult = lnValor.value / lnBase.value;
+    steps.push(`log_b(x) = ln(x) / ln(b) = ${lnValor.value.toFixed(6)} / ${lnBase.value.toFixed(6)} = ${logResult.toFixed(6)}`);
+
+    return { success: true, steps, result: logResult };
+  }
+
+  // Lei dos Senos: a/sinA = b/sinB = c/sinC
+  // Dados dois lados e dois ângulos, calcula o lado ou ângulo faltante
+  function calcularLeiDosSenos(a, b, anguloA, anguloB) {
+    a = parseFloat(a);
+    b = parseFloat(b);
+    anguloA = parseFloat(anguloA);
+    anguloB = parseFloat(anguloB);
+
+    if (a <= 0 || b <= 0 || anguloA <= 0 || anguloB <= 0) {
+      return { error: "Todos os valores devem ser positivos e maiores que zero." };
+    }
+
+    let steps = [];
+    steps.push(`Lei dos Senos: a/sin(A) = b/sin(B) = c/sin(C)`);
+
+    // Calcular c e anguloC
+    const anguloC = 180 - anguloA - anguloB;
+    if (anguloC <= 0) {
+      return { error: "A soma dos ângulos deve ser menor que 180 graus." };
+    }
+    steps.push(`Calculando o ângulo C: 180° - A - B = 180° - ${anguloA}° - ${anguloB}° = ${anguloC}°`);
+
+    // Calcular c usando a/sinA = c/sinC => c = a * sinC / sinA
+    const sinA = Math.sin(anguloA * Math.PI / 180);
+    const sinB = Math.sin(anguloB * Math.PI / 180);
+    const sinC = Math.sin(anguloC * Math.PI / 180);
+
+    steps.push(`sin(A) = sin(${anguloA}°) = ${sinA.toFixed(4)}`);
+    steps.push(`sin(B) = sin(${anguloB}°) = ${sinB.toFixed(4)}`);
+    steps.push(`sin(C) = sin(${anguloC}°) = ${sinC.toFixed(4)}`);
+
+    const c = a * sinC / sinA;
+    steps.push(`Calculando lado c: c = a * sin(C) / sin(A) = ${a} * ${sinC.toFixed(4)} / ${sinA.toFixed(4)} = ${c.toFixed(4)}`);
+
+    // Calcular b esperado para conferir: b = a * sinB / sinA
+    const bCalc = a * sinB / sinA;
+    steps.push(`Verificando lado b: b = a * sin(B) / sin(A) = ${a} * ${sinB.toFixed(4)} / ${sinA.toFixed(4)} = ${bCalc.toFixed(4)}`);
+
+    return { success: true, steps, sides: { a, b, c }, angles: { A: anguloA, B: anguloB, C: anguloC } };
+  }
+
+  // Lei dos Cossenos: c² = a² + b² - 2ab*cos(C)
+  // Calcula lado c dado a, b e ângulo C
+  function calcularLeiDosCossenos(a, b, anguloC) {
+    a = parseFloat(a);
+    b = parseFloat(b);
+    anguloC = parseFloat(anguloC);
+
+    if (a <= 0 || b <= 0 || anguloC <= 0) {
+      return { error: "Todos os valores devem ser positivos e maiores que zero." };
+    }
+
+    let steps = [];
+    steps.push(`Lei dos Cossenos: c² = a² + b² - 2ab*cos(C)`);
+
+    const cosC = Math.cos(anguloC * Math.PI / 180);
+    steps.push(`cos(C) = cos(${anguloC}°) = ${cosC.toFixed(4)}`);
+
+    const c2 = a*a + b*b - 2*a*b*cosC;
+    steps.push(`c² = ${a}² + ${b}² - 2*${a}*${b}*${cosC.toFixed(4)} = ${c2.toFixed(4)}`);
+
+    if (c2 < 0) {
+      return { error: "Resultado inválido: c² negativo." };
+    }
+
+    const c = Math.sqrt(c2);
+    steps.push(`c = √${c2.toFixed(4)} = ${c.toFixed(4)}`);
+
+    return { success: true, steps, sideC: c };
+  }
+
+  // Área do triângulo: várias fórmulas
+  // Usando base e altura, ou (1/2)*a*b*sin(C), ou fórmula de Heron
+  function calcularAreaTriangulo(base, altura, ladoA, ladoB, ladoC, anguloC) {
+    base = parseFloat(base);
+    altura = parseFloat(altura);
+    ladoA = parseFloat(ladoA);
+    ladoB = parseFloat(ladoB);
+    ladoC = parseFloat(ladoC);
+    anguloC = parseFloat(anguloC);
+
+    let steps = [];
+    let areas = [];
+
+    if (base > 0 && altura > 0) {
+      const area1 = (base * altura) / 2;
+      steps.push(`Área usando base e altura: (base * altura) / 2 = (${base} * ${altura}) / 2 = ${area1.toFixed(4)}`);
+      areas.push({ method: 'Base e Altura', value: area1 });
+    }
+
+    if (ladoA > 0 && ladoB > 0 && anguloC > 0) {
+      const sinC = Math.sin(anguloC * Math.PI / 180);
+      const area2 = (ladoA * ladoB * sinC) / 2;
+      steps.push(`Área usando lados e ângulo: (1/2) * a * b * sin(C) = (1/2) * ${ladoA} * ${ladoB} * sin(${anguloC}°) = ${area2.toFixed(4)}`);
+      areas.push({ method: 'Lados e Ângulo', value: area2 });
+    }
+
+    if (ladoA > 0 && ladoB > 0 && ladoC > 0) {
+      const s = (ladoA + ladoB + ladoC) / 2;
+      const heron = Math.sqrt(s * (s - ladoA) * (s - ladoB) * (s - ladoC));
+      steps.push(`Área usando fórmula de Heron: s = (a + b + c)/2 = (${ladoA} + ${ladoB} + ${ladoC})/2 = ${s.toFixed(4)}`);
+      steps.push(`Área = √[s(s-a)(s-b)(s-c)] = √[${s.toFixed(4)} * (${s.toFixed(4)} - ${ladoA}) * (${s.toFixed(4)} - ${ladoB}) * (${s.toFixed(4)} - ${ladoC})] = ${heron.toFixed(4)}`);
+      areas.push({ method: 'Fórmula de Heron', value: heron });
+    }
+
+    if (areas.length === 0) {
+      return { error: "Insira valores válidos para calcular a área." };
+    }
+
+    return { success: true, steps, areas };
+  }
+
+  // Teorema de Pitágoras: hip² = catA² + catB²
+  // Calcula hipotenusa dado catetos
+  function calcularPitagoras(catetoA, catetoB) {
+    catetoA = parseFloat(catetoA);
+    catetoB = parseFloat(catetoB);
+
+    if (catetoA <= 0 || catetoB <= 0) {
+      return { error: "Catetos devem ser maiores que zero." };
+    }
+
+    let steps = [];
+    steps.push(`Teorema de Pitágoras: hipotenusa² = catetoA² + catetoB²`);
+    steps.push(`hipotenusa² = ${catetoA}² + ${catetoB}² = ${(catetoA*catetoA).toFixed(4)} + ${(catetoB*catetoB).toFixed(4)} = ${(catetoA*catetoA + catetoB*catetoB).toFixed(4)}`);
+
+    const hipotenusa = Math.sqrt(catetoA*catetoA + catetoB*catetoB);
+    steps.push(`hipotenusa = √${(catetoA*catetoA + catetoB*catetoB).toFixed(4)} = ${hipotenusa.toFixed(4)}`);
+
+    return { success: true, steps, hipotenusa };
+  }
+
+  // Progressão Aritmética: a_n = a_1 + (n-1)*r
+  function calcularPA(a1, n, r) {
+    a1 = parseFloat(a1);
+    n = parseInt(n);
+    r = parseFloat(r);
+
+    if (isNaN(a1) || isNaN(n) || isNaN(r) || n <= 0) {
+      return { error: "Valores inválidos para PA." };
+    }
+
+    let steps = [];
+    steps.push(`Fórmula do n-ésimo termo da PA: aₙ = a₁ + (n-1) * r`);
+    steps.push(`aₙ = ${a1} + (${n} - 1) * ${r} = ${a1} + ${(n-1)*r} = ${a1 + (n-1)*r}`);
+
+    return { success: true, steps, an: a1 + (n-1)*r };
+  }
+
+  // Progressão Geométrica: a_n = a_1 * q^(n-1)
+  function calcularPG(a1, n, q) {
+    a1 = parseFloat(a1);
+    n = parseInt(n);
+    q = parseFloat(q);
+
+    if (isNaN(a1) || isNaN(n) || isNaN(q) || n <= 0) {
+      return { error: "Valores inválidos para PG." };
+    }
+
+    let steps = [];
+    steps.push(`Fórmula do n-ésimo termo da PG: aₙ = a₁ * q^(n-1)`);
+    steps.push(`aₙ = ${a1} * ${q}^(${n} - 1) = ${a1} * ${q}^${n-1} = ${a1 * Math.pow(q, n-1)}`);
+
+    return { success: true, steps, an: a1 * Math.pow(q, n-1) };
+  }
+
+  function renderResult(data) {
+    result.style.display = 'block';
+    if (data.error) {
+      result.className = 'result error';
+      result.textContent = data.error;
+    } else if (data.success) {
+      result.className = 'result success';
+      let html = '';
+      if (data.steps && data.steps.length) {
+        html += '<div class="rich-text-content">';
+        html += data.steps.map(step => `<p>${step}</p>`).join('');
+        html += '</div>';
+      }
+      if (data.roots) {
+        html += `<p><strong>Raízes:</strong> x₁ = ${data.roots[0].toFixed(4)}, x₂ = ${data.roots[1].toFixed(4)}</p>`;
+      }
+      if (typeof data.result === 'number') {
+        html += `<p><strong>Resultado:</strong> ${data.result.toFixed(4)}</p>`;
+      }
+      if (data.sides) {
+        html += `<p><strong>Lados:</strong> a = ${data.sides.a}, b = ${data.sides.b}, c = ${data.sides.c.toFixed(4)}</p>`;
+      }
+      if (data.angles) {
+        html += `<p><strong>Ângulos (graus):</strong> A = ${data.angles.A}, B = ${data.angles.B}, C = ${data.angles.C.toFixed(4)}</p>`;
+      }
+      if (data.sideC) {
+        html += `<p><strong>Lado c:</strong> ${data.sideC.toFixed(4)}</p>`;
+      }
+      if (data.areas) {
+        html += `<p><strong>Áreas calculadas:</strong></p><ul>`;
+        data.areas.forEach(area => {
+          html += `<li><mark>${area.method}:</mark> ${area.value.toFixed(4)}</li>`;
+        });
+        html += `</ul>`;
+      }
+      if (data.hipotenusa) {
+        html += `<p><strong>Hipotenusa:</strong> ${data.hipotenusa.toFixed(4)}</p>`;
+      }
+      if (data.an !== undefined) {
+        html += `<p><strong>Termo calculado:</strong> ${data.an.toFixed(4)}</p>`;
+      }
+      result.innerHTML = html;
+    }
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    result.style.display = 'none';
+    loading.style.display = 'block';
+    submitBtn.disabled = true;
+
+    setTimeout(() => {
+      loading.style.display = 'none';
+      const type = calcTypeSelect.value;
+
+      if (type === 'bhaskara') {
+        const a = form.a.value.trim();
+        const b = form.b.value.trim();
+        const c = form.c.value.trim();
+        const res = calcularBhaskara(a, b, c);
+        renderResult(res);
+      } else if (type === 'regraDeTres') {
+        const v1 = form.valor1.value.trim();
+        const v2 = form.valor2.value.trim();
+        const v3 = form.valor3.value.trim();
+        const res = calcularRegraDeTres(v1, v2, v3);
+        renderResult(res);
+      } else if (type === 'porcentagem') {
+        const total = form.total.value.trim();
+        const porcentagem = form.porcentagem.value.trim();
+        const res = calcularPorcentagem(total, porcentagem);
+        renderResult(res);
+      } else if (type === 'logaritmo') {
+        const base = form.base.value.trim();
+        const valor = form.valor.value.trim();
+        const res = calcularLogaritmo(base, valor);
+        renderResult(res);
+      } else if (type === 'leiDosSenos') {
+        const a = form.a.value.trim();
+        const b = form.b.value.trim();
+        const anguloA = form.anguloA.value.trim();
+        const anguloB = form.anguloB.value.trim();
+        const res = calcularLeiDosSenos(a, b, anguloA, anguloB);
+        renderResult(res);
+      } else if (type === 'leiDosCossenos') {
+        const a = form.a.value.trim();
+        const b = form.b.value.trim();
+        const anguloC = form.anguloC.value.trim();
+        const res = calcularLeiDosCossenos(a, b, anguloC);
+        renderResult(res);
+      } else if (type === 'areaTriangulo') {
+        const base = form.base.value.trim();
+        const altura = form.altura.value.trim();
+        const ladoA = form.ladoA.value.trim();
+        const ladoB = form.ladoB.value.trim();
+        const ladoC = form.ladoC.value.trim();
+        const anguloC = form.anguloC.value.trim();
+        const res = calcularAreaTriangulo(base, altura, ladoA, ladoB, ladoC, anguloC);
+        renderResult(res);
+      } else if (type === 'pitagoras') {
+        const catetoA = form.catetoA.value.trim();
+        const catetoB = form.catetoB.value.trim();
+        const res = calcularPitagoras(catetoA, catetoB);
+        renderResult(res);
+      } else if (type === 'progressaoAritmetica') {
+        const a1 = form.a1.value.trim();
+        const n = form.n.value.trim();
+        const r = form.r.value.trim();
+        const res = calcularPA(a1, n, r);
+        renderResult(res);
+      } else if (type === 'progressaoGeometrica') {
+        const a1 = form.a1.value.trim();
+        const n = form.n.value.trim();
+        const q = form.q.value.trim();
+        const res = calcularPG(a1, n, q);
+        renderResult(res);
+      } else {
+        renderResult({ error: "Tipo de cálculo inválido." });
+      }
+      submitBtn.disabled = false;
+    }, 600);
+  });
+
+  calcTypeSelect.addEventListener('change', e => {
+    renderInputs(e.target.value);
+  });
+</script>
+
+</body>
+</html>
